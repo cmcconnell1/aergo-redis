@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: redis-sentinel
+spec:
+  replicas: 1
+  selector:
+    redis-sentinel: "true"
+  template:
+    metadata:
+      labels:
+        name: redis-sentinel
+        redis-sentinel: "true"
+        role: sentinel
+    spec:
+      containers:
+      - name: sentinel
+        #image: gcr.io/google_containers/redis:v1
+        image: gcr.io/google_containers/redis:v1
+        env:
+          - name: SENTINEL
+            value: "true"
+          - name: MY_NODE_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName
+          - name: MY_POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: MY_POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+          - name: MY_POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+          - name: MY_POD_SERVICE_ACCOUNT
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.serviceAccountName
+          #- name: REDIS_PASSWORD
+          #  valueFrom:
+          #    secretKeyRef:
+          #      name: redis-credentials
+          #      key: redispass
+        ports:
+          - containerPort: 26379

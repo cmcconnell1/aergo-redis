@@ -1,0 +1,14 @@
+name: redis
+version: 0.0.1
+appVersion: 0.0.1
+description: TD Redis Helm chart for Kubernetes
+keywords:
+- redis
+- keyvalue
+- database
+home: http://redis.io/
+icon: https://bitnami.com/assets/stacks/redis/img/redis-stack-220x234.png
+maintainers:
+- name: Terradatum Ops Hosers
+  email: sysadmin@terradatum.com
+engine: gotpl
